@@ -1,6 +1,8 @@
-# Raylib CMake Template
+# Raylib CMake Template, without web support
 
 This template simplifies the setup process for raylib using CMake FetchContent. It automatically fetches and configures raylib along with a few optional game development libraries. Fast and easy way to start your game dev journey with raylib using this straightforward template.
+
+Me ([@EntityPlantt](https://github.com/EntityPlantt)) removed all configuration files for Web, to simplify the template and not overwhelm people (like me) when starting new projects.
 
 ### libraries supported
 
@@ -21,7 +23,6 @@ This template simplifies the setup process for raylib using CMake FetchContent. 
 #### Prerequisites
 - [cmake](https://cmake.org/)
 - [mingw](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/) or [Visual Studio](https://visualstudio.microsoft.com/) with [Desktop development with c++](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170)
-- [Emscripten](https://github.com/emscripten-core/emsdk) (for web build)
 
 
 ### Choosing What libraries to use
@@ -67,68 +68,6 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build . --config Release
 
 ## The executable is found in the build directory either in the root of the directory or in debug/release file if using msvc
-```
-
-## Building for the Web
-
-```bash
-## Ensure Emscripten is installed and configured:
-## on windows
-git clone https://github.com/emscripten-core/emsdk.git
-cd emsdk
-./emsdk.bat install latest
-./emsdk.bat activate latest --permanent
-
-## add emsdk to path ex: C:\Program Files\emsdk
-
-## on linux
-cd /usr/local
-git clone https://github.com/emscripten-core/emsdk.git
-cd emsdk
-./emsdk install latest
-./emsdk activate latest --permanent
-
-## add emsdk to path
-
-## Navigate to the project directory
-cd raylib-cmake
-
-## Change to tools dir
-cd tools
-
-## Run the build script for the web
-.\build_for_web.bat async
-
-## If emscripten_set_main_loop_arg is set up then just use:
-.\build_for_web.bat
-
-## This gives much better performance in the web
-## Example of how to use emscripten_set_main_loop_arg below
-
-```
-##### emscripten_set_main_loop_arg example
-
-```c++
-void ClassName::MainLoopHelper(void *userData)
-{
-    ClassName *className = static_cast<ClassName *>(userData);
-
-    className->Draw(); // call your game functions here
-}
-
-// main loop
-void ClassName::Run() // Run() is called from a ClassName instance in main
-{
-#if defined(PLATFORM_WEB)
-    emscripten_set_main_loop_arg(MainLoopHelper, this, 0, 1);
-#else
-    while (!WindowShouldClose())
-    {
-        MainLoopHelper(this);
-    }
-#endif
-
-// replace ClassName with the name of your class and function names with your functions
 ```
 
 ### Troubleshooting
